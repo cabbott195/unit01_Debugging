@@ -30,19 +30,68 @@ var acresBox = document.forms[0].acres;
 
 /* verify acres text box entry is a positive number */
 function verifyAcres() {
-   testFormCompleteness();      
+   var validity = true;
+   var validity = true;
+   var messageText = "";
+   try {
+      if (!(acresBox.value > 0)) {
+         throw "Please enter a number of acres greater than 0.";
+      }//Message that appears on the left side of the screen when the user tries to select acreage lower than 0.
+   }catch (message) {
+      validity = false;
+      messageText = message;
+      acresBox.value = ""; 
+   }
+   finally {
+      acresComplete = validity;
+      messageElement.innerHTML = messageText;
+      messageHeadElement.innerHTML = "";
+   }
 }
 
 /* verify at least one crops checkbox is checked */
 function verifyCrops() {
-   testFormCompleteness();
+   try{
+      for (var i = 0; i < 7;i++){
+         if(cropsFieldset.getElementsByTagName("input")[i].checked){
+            cropscomplete = true
+            messageElement.innerHTML = "";
+            testFormCompleteness();
+            i = 8;
+         }
+      }
+      if (i===7){
+         throw "Please select at least one crop.";
+      } //Message that appears on the left side of the screen when the user doesn't have any crops selected.
+   }
+   catch(message){
+      cropsComplete = false;
+      messageHeadElement.innerHTML = "";
+      messageElement.innerHTML = message;
+   }
 }
 
 /* verify months text box entry is between 1 and 12 */
 function verifyMonths() {
-   testFormCompleteness();
+   var validity = true;
+   var messageText = "";
+   try {
+      if (!(monthsBox.value >= 1 && monthsBox.value <= 12)){
+         throw "Please enter a number of months between 1 and 12.";
+      } //conditional that checks if the user enters a number less than 1 or more than 12.
+   }
+   catch(message) {
+      validity = false;
+      messageText = message;
+      monthsBox.value = "";
+   }
+   finally {
+      monthsComplete = validity;
+      messageElement.innerHTML = messageText;
+      messageHeadElement.innerHTML = "";
+      testFormCompleteness();
+   }
 }
-
 /* verify that a fuel option button is selected */
 function verifyFuel() {
    testFormCompleteness();
